@@ -92,7 +92,7 @@ module.exports = {
       "error",
       {
         selector: "default",
-        format: ["camelCase","PascalCase"],
+        format: ["camelCase", "PascalCase"],
       },
       {
         selector: "variable",

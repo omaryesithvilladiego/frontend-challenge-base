@@ -1,0 +1,110 @@
+.quickbet {
+  align-self: stretch;
+  position: relative;
+  letter-spacing: 0.15em;
+  line-height: 28px;
+  text-transform: uppercase;
+}
+.movies {
+  position: absolute;
+  top: 0px;
+  left: 9px;
+  letter-spacing: 0.15em;
+  line-height: 13px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 116px;
+  height: 14px;
+}
+.groupChild {
+  position: absolute;
+  top: 5px;
+  left: 0px;
+}
+.groupItem {
+  position: absolute;
+  top: 5px;
+  left: 99px;
+  width: 35px;
+  height: 4px;
+  object-fit: contain;
+}
+.groupInner {
+  position: absolute;
+  top: 6px;
+  left: 54px;
+  border-radius: 100%;
+  background-color: #f0b90b;
+  width: 2px;
+  height: 2px;
+}
+.moviesParent {
+  width: 134px;
+  position: relative;
+  height: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #f0b90b;
+}
+.quickbetParent {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 164px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  width: 164px;
+  position: relative;
+  height: 42px;
+  text-align: left;
+  font-size: 25px;
+  color: #fff;
+  font-family: Montserrat;
+}
+.btn {
+  position: relative;
+  line-height: 14px;
+  font-weight: 600;
+}
+.popular {
+  border-radius: 4px;
+  background-color: #000;
+  height: 36px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.header {
+  width: 100%;
+  position: sticky;
+  margin: 0 !important;
+  top: 0px;
+  left: 0px;
+  background-color: #000;
+  height: 69px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 100px;
+  box-sizing: border-box;
+  gap: 42px;
+  text-align: center;
+  font-size: 14px;
+  color: #f6f6f6;
+  font-family: Inter;
+}
+
+.leftSide {
+  display: flex;
+  gap: 42px;
+}
