@@ -91,10 +91,10 @@ const Header = (): JSX.Element => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
-                  <div className={styles.botn}>Favorites</div>
+                  <button className={styles.botn}>Favorites</button>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
-                  <div className={styles.botn}>Favorites</div>
+                  <button className={styles.botn}>Favorites</button>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
