@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../../styles/header/Header.module.css";
 import Image from "next/image";
 import { IconButton, Menu, MenuItem, useMediaQuery } from "@mui/material";
-
+import Cookies from "js-cookie";
+import { UserContext } from "@/context/user";
 const Header = (): JSX.Element => {
   const matches = useMediaQuery("(min-width:680px)");
+  const { isLogin } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -59,14 +61,22 @@ const Header = (): JSX.Element => {
         </div>
 
         <div className="rightSide">
-          {matches && (
-            <Image
-              alt="profileIcon"
-              src="/ProfileIcon.svg"
-              width={32}
-              height={32}
-            />
-          )}
+          {matches &&
+            (!isLogin ? (
+              <Image
+                alt="profileIcon"
+                src="/ProfileIcon.svg"
+                width={32}
+                height={32}
+              />
+            ) : (
+              <Image
+                alt="profileIcon"
+                src="/YellowDark.svg"
+                width={32}
+                height={32}
+              />
+            ))}
           {!matches && (
             <>
               <IconButton

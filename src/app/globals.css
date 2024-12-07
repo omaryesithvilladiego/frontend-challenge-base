@@ -5,4 +5,33 @@
 body {
   margin: 0;
   line-height: normal;
+  background-color: #454545;
+}
+
+.contenedor::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.contenedor::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+.contenedor::-webkit-scrollbar-button:increment,
+.contenedor::-webkit-scrollbar-button {
+  display: none;
+}
+
+.contenedor::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.contenedor::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #fff;
+  height: 122px;
+  width: 6px;
+}
+
+.contenedor::-webkit-scrollbar-track {
+  border-radius: 10px;
 }

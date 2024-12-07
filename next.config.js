@@ -1,9 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // Permite imágenes desde cualquier dominio
+      },
+    ],
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // Ignorar ESLint durante la construcción
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

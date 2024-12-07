@@ -1,68 +1,62 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../../styles/hero/hero.module.css";
 import styled from "styled-components";
 import { Stack, useMediaQuery } from "@mui/material";
 import Image from "next/image";
-
-interface IMovie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { IMovie } from "@/interfaces/interfaces";
+import { UserContext } from "@/context/user";
+import ProgressMovie from "../ProgressStatus/progressMovie";
+import Cookies from "js-cookie";
+import BasicModal from "../ModalLogin/modalLogin";
 
 export default function Hero(): JSX.Element {
   const matches = useMediaQuery("(max-width:1000px)");
+  const { movies, popularMovies } = useContext(UserContext);
+  const [popularityMax, setPopularityMax] = useState<number>(0);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  useEffect(() => {}, []);
+  const handleClickLike = () => {
+    const token = Cookies.get("token");
+    console.log(token);
 
-  const movies: Array<IMovie> = [
-    {
-      adult: false,
-      backdrop_path: "/AhBxEuJsd4n4FLCebPzLq0IMjrp.jpg",
-      genre_ids: [18, 9648, 28],
-      id: 1316205,
-      original_language: "zh",
-      original_title: "狄仁杰·通天人偶",
-      overview:
-        "After occurrences of a bizarre fire in Luoyang palace, incredible puppetry skills, the Kunlun sacred tree that has been frozen for a thousand years, a shocking bloodthirsty murder case, Wu Zetian's mysterious Plum Blossom Shadow Guard... suddenly two Wu Zetians appear in the world at the same time, and a series of unsolved and intertwined cases emerge. Watch how Di Renjie peels off the layers to uncover the hidden shocking conspiracy.",
-      popularity: 18.5,
-      poster_path: "/5kdQMjPzUaH3Q3T00MUEaGAzzaG.jpg",
-      release_date: "2024-07-13",
-      title: "The Mystery of Humanoid Puppet",
-      video: false,
-      vote_average: 0,
-      vote_count: 0,
-    },
-  ];
+    if (!token) {
+      handleOpen();
+    }
+  };
+
+  useEffect(() => {
+    const popularity = movies.map((movie) => movie.popularity);
+    console.log(popularity);
+    const maxPopularity = Math.max(...popularity);
+    console.log(maxPopularity);
+    setPopularityMax(maxPopularity);
+  }, [movies, popularMovies]);
 
   return (
     <HeroWraper className={styles.hero}>
-      {movies.map((movie) => {
+      <BasicModal
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        open={open}
+      />
+      {movies.slice(0, 1).map((movie) => {
         return (
           <ContentHero key={movie.id}>
             <Stack
               flexDirection={"column"}
               justifyContent={"end"}
               style={{
-                background: `linear-gradient(0.87deg, #000 19.08%, rgba(102, 102, 102, 0)), url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
+                background: `linear-gradient(0.87deg, #000 19.08%, rgba(102, 102, 102, 0)), url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`,
                 height: !matches ? "436px" : "600px",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 color: "white",
                 padding: "60px",
+                boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.45)",
               }}
             >
               <Stack>
@@ -87,46 +81,22 @@ export default function Hero(): JSX.Element {
                     flexDirection={"row-reverse"}
                     justifyContent={!matches ? "right" : "center"}
                     alignItems={"center"}
+                    gap={"49px"}
                   >
-                    <div className="rating">
-                      <svg width="150" height="150" viewBox="0 0 250 250">
-                        <circle
-                          className="bg"
-                          cx="125"
-                          cy="125"
-                          r="92"
-                          fill="transparent"
-                          stroke="#4da14e64"
-                          stroke-width="10"
-                        ></circle>
-                        <circle
-                          className="fg"
-                          cx="125"
-                          cy="125"
-                          r="92"
-                          fill="transparent"
-                          stroke=" #4da14f"
-                          stroke-width="10"
-                          stroke-dasharray="600"
-                          stroke-dashoffset={
-                            600 - (600 * movie.popularity) / 100
-                          }
-                          transform="rotate(-90, 125, 125)"
-                        ></circle>
-                        <text
-                          fill="white"
-                          x="125"
-                          y="125"
-                          alignmentBaseline="middle"
-                          textAnchor="middle"
-                          style={{ fontSize: "28px" }}
-                        >
-                          {Math.round(movie.popularity)}%
-                        </text>
-                      </svg>
-                    </div>
+                    <ProgressMovie
+                      popularityMax={popularityMax}
+                      size={150}
+                      popularity={movie.popularity}
+                    />
 
-                    <Image alt="" src={"/Heart.svg"} width={25} height={25} />
+                    <Image
+                      style={{ cursor: "pointer" }}
+                      onClick={handleClickLike}
+                      alt=""
+                      src={"/Heart.svg"}
+                      width={25}
+                      height={25}
+                    />
                   </Stack>
                 </Stack>
               </Stack>
