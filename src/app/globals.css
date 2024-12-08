@@ -6,6 +6,7 @@ body {
   margin: 0;
   line-height: normal;
   background-color: #454545;
+  scroll-behavior: smooth;
 }
 
 .contenedor::-webkit-scrollbar {

@@ -34,6 +34,10 @@ const MovieDetail = () => {
   const router = useRouter();
 
   useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  useEffect(() => {
     const popularity = movies.map((movie) => movie.popularity);
     const maxPopularity = Math.max(...popularity);
     const maxPopularityPopular = Math.max(...popularity);
