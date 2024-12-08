@@ -64,145 +64,140 @@ const MovieDetail = () => {
         handleOpen={handleOpen}
         open={open}
       />
-      {movie?.backdrop_path && (
+
+      <Stack
+        flexDirection={matches ? "row" : "column"}
+        style={{
+          background: `linear-gradient(0.87deg, #000 19.08%, rgba(102, 102, 102, 0)), url(https://image.tmdb.org/t/p/w1280${movie?.backdrop_path})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          color: "white",
+          padding: matches ? "60px" : "20px",
+          boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.45)",
+        }}
+      >
+        <div onClick={() => router.back()}>
+          <ArrowBack style={{ cursor: "pointer" }} />
+        </div>
+
         <Stack
-          flexDirection={matches ? "row" : "column"}
-          style={{
-            background: `linear-gradient(0.87deg, #000 19.08%, rgba(102, 102, 102, 0)), url(https://image.tmdb.org/t/p/w1280${movie.backdrop_path})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            color: "white",
-            padding: matches ? "60px" : "20px",
-            boxShadow: "0px 3px 5px -1px rgba(0,0,0,0.45)",
-          }}
+          flexDirection={"column"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={matches ? "30%" : "100%"}
+          marginBottom={matches ? "0" : "20px"}
         >
-          <div onClick={() => router.back()}>
-            <ArrowBack style={{ cursor: "pointer" }} />
+          {movie?.poster_path && (
+            <Image
+              alt="image"
+              src={
+                `https://image.tmdb.org/t/p/w500${movie?.poster_path}` as string
+              }
+              width={matches ? 305 : 200}
+              height={matches ? 395 : 270}
+            />
+          )}
+          <button
+            style={{
+              backgroundColor: "rgba(240, 185, 11, 1)",
+              height: "46px",
+              width: matches ? "305px" : "100%",
+              border: "none",
+              borderRadius: "4px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            Official Trailer <PlayArrowOutlined />
+          </button>
+        </Stack>
+
+        <Stack
+          gap={"2rem"}
+          width={matches ? "70%" : "100%"}
+          marginLeft={matches ? "0" : "0"}
+        >
+          <h1
+            style={{ fontSize: matches ? "35px" : "28px", fontWeight: "bold" }}
+          >
+            {movie?.title}
+          </h1>
+          <div
+            style={{
+              width: matches ? "30%" : "100%",
+              justifyContent: "space-between",
+              display: "flex",
+            }}
+          >
+            <p>{movie?.release_date}</p>
+            <p>2h 10min</p>
+          </div>
+          <div style={{ width: "100%" }}>
+            <h2 style={{ fontSize: "40px", fontWeight: "bold" }}>Overview:</h2>
+            <p>{movie?.overview}</p>
           </div>
 
-          <Stack
-            flexDirection={"column"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            width={matches ? "30%" : "100%"}
-            marginBottom={matches ? "0" : "20px"}
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            {movie?.poster_path && (
-              <Image
-                alt="image"
-                src={
-                  `https://image.tmdb.org/t/p/w500${movie?.poster_path}` as string
-                }
-                width={matches ? 305 : 200}
-                height={matches ? 395 : 270}
-              />
-            )}
-            <button
-              style={{
-                backgroundColor: "rgba(240, 185, 11, 1)",
-                height: "46px",
-                width: matches ? "305px" : "100%",
-                border: "none",
-                borderRadius: "4px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Official Trailer <PlayArrowOutlined />
-            </button>
-          </Stack>
+            <ProgressMovie
+              popularity={movie?.popularity as number}
+              popularityMax={Number(popularity)}
+              size={matches ? 150 : 120}
+            />
+            <Image
+              style={{ cursor: "pointer" }}
+              onClick={handleClickLike}
+              alt=""
+              src={"/Heart.svg"}
+              width={25}
+              height={25}
+            />
+          </div>
 
-          <Stack
-            gap={"2rem"}
-            width={matches ? "70%" : "100%"}
-            marginLeft={matches ? "0" : "0"}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              gap: "37px",
+              flexWrap: "wrap",
+            }}
           >
-            <h1
-              style={{
-                fontSize: matches ? "35px" : "28px",
-                fontWeight: "bold",
-              }}
-            >
-              {movie.title}
-            </h1>
-            <div
-              style={{
-                width: matches ? "30%" : "100%",
-                justifyContent: "space-between",
-                display: "flex",
-              }}
-            >
-              <p>{movie.release_date}</p>
-              <p>2h 10min</p>
-            </div>
-            <div style={{ width: "100%" }}>
-              <h2 style={{ fontSize: "40px", fontWeight: "bold" }}>
-                Overview:
-              </h2>
-              <p>{movie.overview}</p>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <ProgressMovie
-                popularity={movie.popularity}
-                popularityMax={Number(popularity)}
-                size={matches ? 150 : 120}
-              />
-              <Image
-                style={{ cursor: "pointer" }}
-                onClick={handleClickLike}
-                alt=""
-                src={"/Heart.svg"}
-                width={25}
-                height={25}
-              />
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                gap: "37px",
-                flexWrap: "wrap",
-              }}
-            >
-              {genresMovie.map((genre: any) => {
-                return (
+            {genresMovie.map((genre: any) => {
+              return (
+                <div
+                  key={genre.id}
+                  style={{
+                    border: "1px solid rgba(241, 203, 81, 1)",
+                    borderRadius: "5px",
+                    marginBottom: "10px",
+                  }}
+                >
                   <div
-                    key={genre.id}
                     style={{
-                      border: "1px solid rgba(241, 203, 81, 1)",
-                      borderRadius: "5px",
-                      marginBottom: "10px",
+                      width: "80",
+                      height: "23",
+                      padding: "1rem",
+                      color: "rgba(241, 203, 81, 1)",
                     }}
                   >
-                    <div
-                      style={{
-                        width: "80",
-                        height: "23",
-                        padding: "1rem",
-                        color: "rgba(241, 203, 81, 1)",
-                      }}
-                    >
-                      {genre.name}
-                    </div>
+                    {genre.name}
                   </div>
-                );
-              })}
-            </div>
-          </Stack>
+                </div>
+              );
+            })}
+          </div>
         </Stack>
-      )}
+      </Stack>
+
       <GridMoviesComponent movies={movies} tittle="Recommendations" />
     </>
   );
