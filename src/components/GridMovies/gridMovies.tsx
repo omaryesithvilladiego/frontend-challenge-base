@@ -5,19 +5,15 @@ import { UserContext } from "@/context/user";
 import GridMoviesComponent from "../MoviesGrid/moviesGrid";
 
 export default function GridMovies() {
-  const { movies, popularMovies, topRated, favorites, upcoming } =
-    useContext(UserContext);
-
+  const { movies, popularMovies, topRated, favorites, upcoming } = useContext(UserContext);
+  
   const containerRefPopular = useRef<HTMLDivElement | null>(null);
   const containerRefNowPlaying = useRef<HTMLDivElement | null>(null);
   const containerRefUpcoming = useRef<HTMLDivElement | null>(null);
   const containerRefTopRated = useRef<HTMLDivElement | null>(null);
   const containerRefFavorites = useRef<HTMLDivElement | null>(null);
 
-  const handleWheel = (
-    event: WheelEvent,
-    container: React.RefObject<HTMLDivElement>,
-  ) => {
+  const handleWheel = (event: WheelEvent, container: React.RefObject<HTMLDivElement>) => {
     if (container.current) {
       container.current.scrollLeft += event.deltaY;
       window.document.body.style.overflow = "hidden";
@@ -34,60 +30,35 @@ export default function GridMovies() {
       containerRefNowPlaying,
       containerRefUpcoming,
       containerRefTopRated,
-      containerRefFavorites,
+      containerRefFavorites
     ];
 
-    containers.forEach((container) => {
+    containers.forEach(container => {
       if (container.current) {
-        container.current.addEventListener("wheel", (event) =>
-          handleWheel(event, container),
-        );
+        container.current.addEventListener("wheel", (event) => handleWheel(event, container));
         container.current.addEventListener("mouseleave", handleMouseLeave);
       }
     });
 
     return () => {
-      containers.forEach((container) => {
+      containers.forEach(container => {
         if (container.current) {
-          container.current.removeEventListener("wheel", (event) =>
-            handleWheel(event, container),
-          );
+          container.current.removeEventListener("wheel", (event) => handleWheel(event, container));
           container.current.removeEventListener("mouseleave", handleMouseLeave);
         }
       });
     };
   }, [movies, popularMovies, topRated, favorites, upcoming]);
 
-  if (!movies || !popularMovies || !upcoming || !topRated || !favorites)
-    return <>No hay películas</>;
+  if (!movies || !popularMovies || !upcoming || !topRated || !favorites) return <>No hay películas</>;
 
   return (
     <div>
-      <GridMoviesComponent
-        tittle="Popular"
-        containerRef={containerRefPopular}
-        movies={popularMovies}
-      />
-      <GridMoviesComponent
-        tittle="Now Playing"
-        containerRef={containerRefNowPlaying}
-        movies={movies}
-      />
-      <GridMoviesComponent
-        tittle="Upcoming"
-        containerRef={containerRefUpcoming}
-        movies={upcoming}
-      />
-      <GridMoviesComponent
-        tittle="Top Rated"
-        containerRef={containerRefTopRated}
-        movies={topRated}
-      />
-      <GridMoviesComponent
-        tittle="Favorites"
-        containerRef={containerRefFavorites}
-        movies={favorites}
-      />
+      <GridMoviesComponent tittle="Popular" containerRef={containerRefPopular} movies={popularMovies} />
+      <GridMoviesComponent tittle="Now Playing" containerRef={containerRefNowPlaying} movies={movies} />
+      <GridMoviesComponent tittle="Upcoming" containerRef={containerRefUpcoming} movies={upcoming} />
+      <GridMoviesComponent tittle="Top Rated" containerRef={containerRefTopRated} movies={topRated} />
+      <GridMoviesComponent tittle="Favorites" containerRef={containerRefFavorites} movies={favorites} />
     </div>
   );
 }
