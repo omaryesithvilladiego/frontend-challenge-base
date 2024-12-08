@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
+
 import ProgressMovie from "../ProgressStatus/progressMovie";
 import Tittle from "../Tittle/tittle";
 import BasicModal from "../ModalLogin/modalLogin";
@@ -77,7 +78,9 @@ export default function GridMoviesComponent({ movies, tittle }: Props) {
                 width={200}
                 height={300}
                 onClick={() =>
-                  router.push(`${popularityMax}/${JSON.stringify(movie.title)}`)
+                  router.push(
+                    `/${popularityMax}/${JSON.stringify(movie.title)}`,
+                  )
                 }
                 style={{
                   borderRadius: "8px 8px 0 0",
