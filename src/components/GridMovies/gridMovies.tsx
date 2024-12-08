@@ -1,53 +1,93 @@
 "use client";
 import { Stack } from "@mui/material";
-import Image from "next/image";
 import React, { useRef, useEffect, useContext, useState } from "react";
-import Tittle from "../Tittle/tittle";
 import { UserContext } from "@/context/user";
-import ProgressMovie from "../ProgressStatus/progressMovie";
-import Cookies from "js-cookie";
-import BasicModal from "../ModalLogin/modalLogin";
-import { useRouter } from "next/navigation";
 import GridMoviesComponent from "../MoviesGrid/moviesGrid";
 
 export default function GridMovies() {
-  const { movies, popularMovies, getMovies, upcoming, favorites, topRated } =
+  const { movies, popularMovies, topRated, favorites, upcoming } =
     useContext(UserContext);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleWheel = (event: WheelEvent) => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft += event.deltaY;
-      window.document.body.style.maxHeight = "100vh";
+  const containerRefPopular = useRef<HTMLDivElement | null>(null);
+  const containerRefNowPlaying = useRef<HTMLDivElement | null>(null);
+  const containerRefUpcoming = useRef<HTMLDivElement | null>(null);
+  const containerRefTopRated = useRef<HTMLDivElement | null>(null);
+  const containerRefFavorites = useRef<HTMLDivElement | null>(null);
+
+  const handleWheel = (
+    event: WheelEvent,
+    container: React.RefObject<HTMLDivElement>,
+  ) => {
+    if (container.current) {
+      container.current.scrollLeft += event.deltaY;
+      window.document.body.style.overflow = "hidden";
     }
   };
 
+  const handleMouseLeave = () => {
+    window.document.body.style.overflow = "scroll";
+  };
+
   useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener("wheel", handleWheel);
-      container.addEventListener("mouseleave", () => {
-        window.document.body.style.maxHeight = "";
-        window.document.body.style.overflow = "scroll";
-      });
-    }
+    const containers = [
+      containerRefPopular,
+      containerRefNowPlaying,
+      containerRefUpcoming,
+      containerRefTopRated,
+      containerRefFavorites,
+    ];
+
+    containers.forEach((container) => {
+      if (container.current) {
+        container.current.addEventListener("wheel", (event) =>
+          handleWheel(event, container),
+        );
+        container.current.addEventListener("mouseleave", handleMouseLeave);
+      }
+    });
 
     return () => {
-      if (container) {
-        container.removeEventListener("wheel", handleWheel);
-      }
+      containers.forEach((container) => {
+        if (container.current) {
+          container.current.removeEventListener("wheel", (event) =>
+            handleWheel(event, container),
+          );
+          container.current.removeEventListener("mouseleave", handleMouseLeave);
+        }
+      });
     };
-  }, [movies, popularMovies]);
+  }, [movies, popularMovies, topRated, favorites, upcoming]);
 
-  if (!movies || !popularMovies) return <>No hay movies</>;
+  if (!movies || !popularMovies || !upcoming || !topRated || !favorites)
+    return <>No hay películas</>;
 
   return (
     <div>
-      <GridMoviesComponent tittle="Popular" movies={popularMovies} />
-      <GridMoviesComponent tittle="Now paying" movies={movies} />
-      <GridMoviesComponent tittle="Upcoming" movies={upcoming} />
-      <GridMoviesComponent tittle="Top Rated" movies={topRated} />
-      <GridMoviesComponent tittle="Favorites" movies={favorites} />
+      <GridMoviesComponent
+        tittle="Popular"
+        containerRef={containerRefPopular}
+        movies={popularMovies}
+      />
+      <GridMoviesComponent
+        tittle="Now Playing"
+        containerRef={containerRefNowPlaying}
+        movies={movies}
+      />
+      <GridMoviesComponent
+        tittle="Upcoming"
+        containerRef={containerRefUpcoming}
+        movies={upcoming}
+      />
+      <GridMoviesComponent
+        tittle="Top Rated"
+        containerRef={containerRefTopRated}
+        movies={topRated}
+      />
+      <GridMoviesComponent
+        tittle="Favorites"
+        containerRef={containerRefFavorites}
+        movies={favorites}
+      />
     </div>
   );
 }

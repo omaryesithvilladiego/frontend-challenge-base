@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import ProgressMovie from "../ProgressStatus/progressMovie";
 import Tittle from "../Tittle/tittle";
@@ -13,14 +13,18 @@ import BasicModal from "../ModalLogin/modalLogin";
 interface Props {
   movies: IMovie[];
   tittle: string;
+  containerRef?: any;
 }
 
-export default function GridMoviesComponent({ movies, tittle }: Props) {
+export default function GridMoviesComponent({
+  movies,
+  tittle,
+  containerRef,
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const router = useRouter();
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickLike = () => {
     const token = Cookies.get("token");
