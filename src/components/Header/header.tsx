@@ -6,8 +6,10 @@ import Image from "next/image";
 import { IconButton, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import Cookies from "js-cookie";
 import { UserContext } from "@/context/user";
+import { useRouter } from "next/navigation";
 const Header = (): JSX.Element => {
   const matches = useMediaQuery("(min-width:680px)");
+  const router = useRouter();
   const { isLogin } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -22,7 +24,7 @@ const Header = (): JSX.Element => {
     <>
       <div className={styles.header}>
         <div className={styles.leftSide}>
-          <div className={styles.logo}>
+          <div onClick={() => router.push("/")} className={styles.logo}>
             <div className={styles.quickbetParent}>
               <b className={styles.quickbet}>QuiCkbet</b>
 

@@ -2,7 +2,7 @@ import { IMovie, IOptionsFilter } from "@/interfaces/interfaces";
 const urlBack = "http://localhost:3001/";
 
 export const getMoviesFetch = async (options: IOptionsFilter): Promise<any> => {
-  let { genres, popularity, keywords } = options;
+  let { genres, popularity, keywords, page } = options;
 
   let genresFilter = genres?.toString();
   if (genresFilter === undefined) {
@@ -14,7 +14,7 @@ export const getMoviesFetch = async (options: IOptionsFilter): Promise<any> => {
   if (keywords === undefined) keywords = "";
 
   const response = await fetch(
-    `${urlBack}movies?genres=${genresFilter}&popularity=${popularity}&keywords=${keywords}`,
+    `${urlBack}movies?genres=${genresFilter}&popularity=${popularity}&keywords=${keywords}&page=${page}`,
     {
       headers: { "Content-Type": "application/json" },
       method: "GET",

@@ -66,6 +66,7 @@
   font-size: 25px;
   color: #fff;
   font-family: Montserrat;
+  cursor: pointer;
 }
 .btn {
   position: relative;

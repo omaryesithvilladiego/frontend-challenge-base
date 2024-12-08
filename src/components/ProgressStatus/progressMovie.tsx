@@ -51,7 +51,7 @@ export default function ProgressMovie({
           textAnchor="middle"
           style={{ fontSize: "40px", fontWeight: "bold" }}
         >
-          {porcentaje}%
+          {Math.round(porcentaje / 3)}%
         </text>
       </svg>
     </div>

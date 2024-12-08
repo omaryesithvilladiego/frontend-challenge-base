@@ -17,10 +17,19 @@ export const UserContext = createContext<IUserContext>({
   login: async () => null,
   signup: async () => null,
   isLogin: false,
+  upcoming: [],
+  getUpcoming: async () => null,
+  topRated: [],
+  getTopRated: async () => null,
+  favorites: [],
+  getFavorites: async () => null,
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [movies, setMovies] = useState<Array<IMovie>>([]);
+  const [upcoming, setUpcoming] = useState<Array<IMovie>>([]);
+  const [favorites, setFavorites] = useState<Array<IMovie>>([]);
+  const [topRated, setTopRated] = useState<Array<IMovie>>([]);
   const [popularMovies, setPopularMovies] = useState<Array<IMovie>>([]);
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -76,6 +85,60 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  async function getUpcoming(options: IOptionsFilter) {
+    let { page, genres, keywords, popularity } = options;
+    page = 3;
+    try {
+      const response = await getMoviesFetch({
+        page,
+        genres,
+        keywords,
+        popularity,
+      });
+      console.log(response);
+      setUpcoming(response.results);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function getTopRated(options: IOptionsFilter) {
+    let { page, genres, keywords, popularity } = options;
+    page = 4;
+    try {
+      const response = await getMoviesFetch({
+        page,
+        genres,
+        keywords,
+        popularity,
+      });
+      console.log(response);
+      setTopRated(response.results);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function getFavorites(options: IOptionsFilter) {
+    let { page, genres, keywords, popularity } = options;
+    page = 5;
+    try {
+      const response = await getMoviesFetch({
+        page,
+        genres,
+        keywords,
+        popularity,
+      });
+      console.log(response);
+      setFavorites(response.results);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -87,6 +150,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         signup,
         isLogin,
+        upcoming,
+        topRated,
+        favorites,
+        getFavorites,
+        getTopRated,
+        getUpcoming,
       }}
     >
       {children}

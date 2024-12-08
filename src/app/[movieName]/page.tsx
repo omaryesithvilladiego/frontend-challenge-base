@@ -1,20 +1,35 @@
 "use client";
 import { genres } from "@/components/GenresOptions/genresOptions";
+import BasicModal from "@/components/ModalLogin/modalLogin";
+import GridMoviesComponent from "@/components/MoviesGrid/moviesGrid";
 import ProgressMovie from "@/components/ProgressStatus/progressMovie";
 import Tittle from "@/components/Tittle/tittle";
 import { UserContext } from "@/context/user";
 import { IMovie } from "@/interfaces/interfaces";
 import { ArrowBack, PlayArrow, PlayArrowOutlined } from "@mui/icons-material";
 import { Stack } from "@mui/material";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 const MovieDetail = () => {
-  const { getMovieByName, movies } = useContext(UserContext);
+  const { getMovieByName, movies, getMovies } = useContext(UserContext);
   const [movie, setMovie] = useState<IMovie>();
   const [genresMovie, setGenresMovie] = useState<any>([]);
   const [popularityMax, setPopularityMax] = useState<number>(0);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleClickLike = () => {
+    const token = Cookies.get("token");
+    console.log(token);
+
+    if (!token) {
+      handleOpen();
+    }
+  };
 
   const params = useParams();
   const { movieName } = params;
@@ -30,6 +45,7 @@ const MovieDetail = () => {
   useEffect(() => {
     const getMovieByNameFetch = async () => {
       const response = await getMovieByName(movieName as string);
+      await getMovies({ page: 300 });
       setMovie(response.results[0]);
     };
     getMovieByNameFetch();
@@ -45,6 +61,11 @@ const MovieDetail = () => {
 
   return (
     <>
+      <BasicModal
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        open={open}
+      />
       {movie?.backdrop_path && (
         <Stack
           flexDirection={"row"}
@@ -128,12 +149,12 @@ const MovieDetail = () => {
             >
               <ProgressMovie
                 popularity={movie.popularity}
-                popularityMax={500}
+                popularityMax={60000}
                 size={150}
               />{" "}
               <Image
                 style={{ cursor: "pointer" }}
-                // onClick={handleClickLike}
+                onClick={handleClickLike}
                 alt=""
                 src={"/Heart.svg"}
                 width={25}
@@ -176,122 +197,7 @@ const MovieDetail = () => {
           </Stack>
         </Stack>
       )}{" "}
-      <Tittle content="Recomendations" />{" "}
-      <Stack
-        sx={{
-          overflowX: "auto",
-          overflowY: "hidden",
-          flexDirection: "row",
-          scrollBehavior: "smooth",
-
-          "&::-webkit-scrollbar": {
-            height: "0px",
-            width: "0px",
-          },
-          scrollbarWidth: "none", // Para Firefox
-        }}
-      >
-        {movies.map((movie) => {
-          return (
-            <div
-              style={{
-                marginLeft: "24px",
-                backgroundColor: "#262626",
-                borderRadius: "8px",
-                height: "370px",
-              }}
-              key={movie.id}
-            >
-              <div
-                style={{
-                  height: "230px",
-                  width: "200px",
-                  overflow: "hidden",
-                  borderRadius: "8px 8px 0 0",
-                }}
-              >
-                <Image
-                  alt={movie.title}
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  width={200}
-                  height={300}
-                  onClick={() => router.push(JSON.stringify(movie.title))}
-                  style={{
-                    borderRadius: "8px 8px 0 0",
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
-              <Stack height={"6rem"}>
-                <div
-                  style={{
-                    padding: "8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    gap: ".5rem",
-                  }}
-                  className="contentCard"
-                >
-                  <h3
-                    style={{
-                      color: "white",
-                      width: "150px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {movie.title}
-                  </h3>
-
-                  <p style={{ color: "white", fontSize: "9px" }}>
-                    {" "}
-                    {movie.release_date}{" "}
-                  </p>
-
-                  <Stack
-                    color={"white"}
-                    flexDirection={"row"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                  >
-                    <Stack
-                      width={"4rem"}
-                      height={"4rem"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <p style={{ fontSize: ".8rem" }}>Rating</p>
-                      <ProgressMovie
-                        popularityMax={popularityMax}
-                        size={45}
-                        popularity={movie.popularity}
-                      />
-                    </Stack>
-                    <Stack
-                      width={"4rem"}
-                      height={"4rem"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <p style={{ fontSize: ".8rem" }}>Favorites</p>
-                      <Image
-                        style={{ cursor: "pointer" }}
-                        // onClick={handleClickLike}
-                        alt=""
-                        src={"/Heart.svg"}
-                        width={35}
-                        height={40}
-                      />
-                    </Stack>
-                  </Stack>
-                </div>
-              </Stack>
-            </div>
-          );
-        })}
-      </Stack>
+      <GridMoviesComponent movies={movies} tittle="Recomendations" />
     </>
   );
 };

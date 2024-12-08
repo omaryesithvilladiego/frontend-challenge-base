@@ -31,14 +31,23 @@ const genreNames = genres.map((genre) => genre.name);
 
 const GenresOptions = (props: Props) => {
   const [genreSelected, setSelectedGenre] = React.useState<number[]>([]);
-  const { getMovies, getPopularMovies } = useContext(UserContext);
+  const {
+    getMovies,
+    getPopularMovies,
+    getFavorites,
+    getTopRated,
+    getUpcoming,
+  } = useContext(UserContext);
   const matches = useMediaQuery("(min-width:800px)");
 
   useEffect(() => {
     console.log(genreSelected);
 
     const getMoviesFetchMovie = () => {
-      getMovies({ genres: genreSelected });
+      getMovies({ genres: genreSelected, page: 1 });
+      getFavorites({ genres: genreSelected });
+      getTopRated({ genres: genreSelected });
+      getUpcoming({ genres: genreSelected });
       getPopularMovies({ genres: genreSelected });
     };
     getMoviesFetchMovie();

@@ -33,6 +33,12 @@ interface IUserContext {
   login: (email: string, password: string) => Promise<any>;
   signup: (email: string, password: string) => Promise<any>;
   isLogin: boolean;
+  upcoming: Array<IMovie>;
+  getUpcoming: (options: IOptionsFilter) => Promise<any>;
+  topRated: Array<IMovie>;
+  getTopRated: (options: IOptionsFilter) => Promise<any>;
+  favorites: Array<IMovie>;
+  getFavorites: (options: IOptionsFilter) => Promise<any>;
 }
 
 export type { IUserContext, IMovie, IOptionsFilter };

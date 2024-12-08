@@ -84,7 +84,7 @@ export default function Hero(): JSX.Element {
                     gap={"49px"}
                   >
                     <ProgressMovie
-                      popularityMax={popularityMax}
+                      popularityMax={60000}
                       size={150}
                       popularity={movie.popularity}
                     />
