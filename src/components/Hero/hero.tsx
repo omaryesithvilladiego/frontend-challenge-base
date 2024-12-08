@@ -20,8 +20,6 @@ export default function Hero(): JSX.Element {
 
   const handleClickLike = () => {
     const token = Cookies.get("token");
-    console.log(token);
-
     if (!token) {
       handleOpen();
     }
@@ -29,9 +27,7 @@ export default function Hero(): JSX.Element {
 
   useEffect(() => {
     const popularity = movies.map((movie) => movie.popularity);
-    console.log(popularity);
     const maxPopularity = Math.max(...popularity);
-    console.log(maxPopularity);
     setPopularityMax(maxPopularity);
   }, [movies, popularMovies]);
 
@@ -72,8 +68,7 @@ export default function Hero(): JSX.Element {
                     <ParagraphTittle
                       style={{ fontSize: !matches ? "20px" : "12px" }}
                     >
-                      {" "}
-                      {movie.overview}{" "}
+                      {movie.overview}
                     </ParagraphTittle>
                   </Stack>
 
@@ -84,7 +79,7 @@ export default function Hero(): JSX.Element {
                     gap={"49px"}
                   >
                     <ProgressMovie
-                      popularityMax={60000}
+                      popularityMax={popularityMax}
                       size={150}
                       popularity={movie.popularity}
                     />

@@ -23,17 +23,16 @@ export default function GridMoviesComponent({ movies, tittle }: Props) {
 
   const handleClickLike = () => {
     const token = Cookies.get("token");
-    console.log(token);
-    console.log(movies);
-
     if (!token) {
       handleOpen();
     }
   };
 
+  // Calcular la popularidad máxima entre todas las películas
+  const popularityMax = Math.max(...movies.map((movie) => movie.popularity));
+
   return (
     <div>
-      {" "}
       <BasicModal
         handleClose={handleClose}
         handleOpen={handleOpen}
@@ -47,114 +46,112 @@ export default function GridMoviesComponent({ movies, tittle }: Props) {
           overflowY: "hidden",
           flexDirection: "row",
           scrollBehavior: "smooth",
-
           "&::-webkit-scrollbar": {
             height: "0px",
             width: "0px",
           },
-          scrollbarWidth: "none", // Para Firefox
+          scrollbarWidth: "none",
         }}
       >
-        {movies.map((movie) => {
-          return (
+        {movies.map((movie) => (
+          <div
+            style={{
+              marginLeft: "24px",
+              backgroundColor: "#262626",
+              borderRadius: "8px",
+              height: "370px",
+            }}
+            key={movie.id}
+          >
             <div
               style={{
-                marginLeft: "24px",
-                backgroundColor: "#262626",
-                borderRadius: "8px",
-                height: "370px",
+                height: "230px",
+                width: "200px",
+                overflow: "hidden",
+                borderRadius: "8px 8px 0 0",
               }}
-              key={movie.id}
             >
+              <Image
+                alt={movie.title}
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                width={200}
+                height={300}
+                onClick={() =>
+                  router.push(`${popularityMax}/${JSON.stringify(movie.title)}`)
+                }
+                style={{
+                  borderRadius: "8px 8px 0 0",
+                  cursor: "pointer",
+                }}
+              />
+            </div>
+            <Stack height={"6rem"}>
               <div
                 style={{
-                  height: "230px",
-                  width: "200px",
-                  overflow: "hidden",
-                  borderRadius: "8px 8px 0 0",
+                  padding: "8px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  gap: ".5rem",
                 }}
+                className="contentCard"
               >
-                <Image
-                  alt={movie.title}
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  width={200}
-                  height={300}
-                  onClick={() => router.push(JSON.stringify(movie.title))}
+                <h3
                   style={{
-                    borderRadius: "8px 8px 0 0",
-                    cursor: "pointer",
+                    color: "white",
+                    width: "150px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
-                />
-              </div>
-              <Stack height={"6rem"}>
-                <div
-                  style={{
-                    padding: "8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    gap: ".5rem",
-                  }}
-                  className="contentCard"
                 >
-                  <h3
-                    style={{
-                      color: "white",
-                      width: "150px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {movie.title}
-                  </h3>
+                  {movie.title}
+                </h3>
 
-                  <p style={{ color: "white", fontSize: "9px" }}>
-                    {" "}
-                    {movie.release_date}{" "}
-                  </p>
+                <p style={{ color: "white", fontSize: "9px" }}>
+                  {movie.release_date}
+                </p>
 
+                <Stack
+                  color={"white"}
+                  flexDirection={"row"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
                   <Stack
-                    color={"white"}
-                    flexDirection={"row"}
-                    justifyContent={"center"}
+                    width={"4rem"}
+                    height={"4rem"}
+                    justifyContent={"space-between"}
                     alignItems={"center"}
                   >
-                    <Stack
-                      width={"4rem"}
-                      height={"4rem"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <p style={{ fontSize: ".8rem" }}>Rating</p>
-                      <ProgressMovie
-                        popularityMax={1000}
-                        size={45}
-                        popularity={movie.popularity}
-                      />
-                    </Stack>
-                    <Stack
-                      width={"4rem"}
-                      height={"4rem"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                    >
-                      <p style={{ fontSize: ".8rem" }}>Favorites</p>
-                      <Image
-                        style={{ cursor: "pointer" }}
-                        onClick={handleClickLike}
-                        alt=""
-                        src={"/Heart.svg"}
-                        width={35}
-                        height={40}
-                      />
-                    </Stack>
+                    <p style={{ fontSize: ".8rem" }}>Rating</p>
+                    <ProgressMovie
+                      popularityMax={popularityMax}
+                      size={45}
+                      popularity={movie.popularity}
+                    />
                   </Stack>
-                </div>
-              </Stack>
-            </div>
-          );
-        })}
+                  <Stack
+                    width={"4rem"}
+                    height={"4rem"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <p style={{ fontSize: ".8rem" }}>Favorites</p>
+                    <Image
+                      style={{ cursor: "pointer" }}
+                      onClick={handleClickLike}
+                      alt=""
+                      src={"/Heart.svg"}
+                      width={35}
+                      height={40}
+                    />
+                  </Stack>
+                </Stack>
+              </div>
+            </Stack>
+          </div>
+        ))}
       </Stack>
     </div>
   );

@@ -14,8 +14,9 @@ export default function ProgressMovie({
 }: Props) {
   const { movies, popularMovies } = useContext(UserContext);
   const [porcentaje, setPorcentaje] = useState<number>(0);
+
   useEffect(() => {
-    const porcentaje = (popularity * 100) / (popularityMax + 1000);
+    const porcentaje = (popularity * 100) / popularityMax;
     setPorcentaje(Math.round(porcentaje));
   }, [movies, popularMovies]);
 
@@ -51,7 +52,7 @@ export default function ProgressMovie({
           textAnchor="middle"
           style={{ fontSize: "40px", fontWeight: "bold" }}
         >
-          {Math.round(porcentaje / 3)}%
+          {Math.round(porcentaje)}%
         </text>
       </svg>
     </div>

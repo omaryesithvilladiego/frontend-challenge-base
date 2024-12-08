@@ -31,8 +31,7 @@ const MovieDetail = () => {
     }
   };
 
-  const params = useParams();
-  const { movieName } = params;
+  const { movieName, popularity } = useParams();
   const router = useRouter();
 
   useEffect(() => {
@@ -149,7 +148,7 @@ const MovieDetail = () => {
             >
               <ProgressMovie
                 popularity={movie.popularity}
-                popularityMax={60000}
+                popularityMax={Number(popularity)}
                 size={150}
               />{" "}
               <Image
