@@ -24,7 +24,6 @@ const MovieDetail = () => {
 
   const handleClickLike = () => {
     const token = Cookies.get("token");
-    console.log(token);
 
     if (!token) {
       handleOpen();

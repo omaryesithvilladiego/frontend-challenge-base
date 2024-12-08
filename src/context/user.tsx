@@ -36,7 +36,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   async function getMovies(options: IOptionsFilter) {
     try {
       const response = await getMoviesFetch(options);
-      console.log(response);
       setMovies(response.results);
       return response;
     } catch (error) {
@@ -47,7 +46,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   async function getPopularMovies(options: IOptionsFilter) {
     try {
       const response = await getPopularMoviesFetch(options);
-      console.log(response);
       setPopularMovies(response.results);
       return response;
     } catch (error) {
@@ -95,7 +93,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         keywords,
         popularity,
       });
-      console.log(response);
       setUpcoming(response.results);
       return response;
     } catch (error) {
@@ -113,7 +110,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         keywords,
         popularity,
       });
-      console.log(response);
       setTopRated(response.results);
       return response;
     } catch (error) {
@@ -131,7 +127,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         keywords,
         popularity,
       });
-      console.log(response);
       setFavorites(response.results);
       return response;
     } catch (error) {

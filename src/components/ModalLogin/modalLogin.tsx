@@ -57,7 +57,6 @@ export default function BasicModal({
 
     try {
       const response = await login(email, password);
-      console.log("Login response:", response);
       // Si es exitoso, hacer algo, como redirigir o mostrar un mensaje
       alert("Login successful");
     } catch (error) {
@@ -73,7 +72,6 @@ export default function BasicModal({
 
     try {
       const response = await signup(email, password);
-      console.log("Signup response:", response);
       // Si es exitoso, hacer algo, como redirigir o mostrar un mensaje
       alert("User registered successfully");
     } catch (error) {

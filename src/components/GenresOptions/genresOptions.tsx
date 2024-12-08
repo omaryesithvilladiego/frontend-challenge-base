@@ -41,8 +41,6 @@ const GenresOptions = (props: Props) => {
   const matches = useMediaQuery("(min-width:800px)");
 
   useEffect(() => {
-    console.log(genreSelected);
-
     const getMoviesFetchMovie = () => {
       getMovies({ genres: genreSelected, page: 1 });
       getFavorites({ genres: genreSelected });
