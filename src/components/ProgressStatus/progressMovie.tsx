@@ -4,22 +4,9 @@ import React, { useContext, useEffect, useState } from "react";
 interface Props {
   popularity: number;
   size: number;
-  popularityMax: number;
 }
 
-export default function ProgressMovie({
-  popularity,
-  size,
-  popularityMax,
-}: Props) {
-  const { movies, popularMovies } = useContext(UserContext);
-  const [porcentaje, setPorcentaje] = useState<number>(0);
-
-  useEffect(() => {
-    const porcentaje = (popularity * 100) / popularityMax;
-    setPorcentaje(Math.round(porcentaje));
-  }, [movies, popularMovies]);
-
+export default function ProgressMovie({ size, popularity }: Props) {
   return (
     <div className="rating">
       <svg width={size} height={size} viewBox="0 0 250 250">
@@ -41,7 +28,7 @@ export default function ProgressMovie({
           stroke=" #4da14f"
           strokeWidth="10"
           strokeDasharray="600"
-          strokeDashoffset={600 - (porcentaje * 600) / 100}
+          strokeDashoffset={popularity}
           transform="rotate(-90, 125, 125)"
         ></circle>
         <text
@@ -52,7 +39,7 @@ export default function ProgressMovie({
           textAnchor="middle"
           style={{ fontSize: "40px", fontWeight: "bold" }}
         >
-          {Math.round(porcentaje)}%
+          {popularity}%
         </text>
       </svg>
     </div>

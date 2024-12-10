@@ -7,6 +7,7 @@ import { IconButton, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import Cookies from "js-cookie";
 import { UserContext } from "@/context/user";
 import { useRouter } from "next/navigation";
+
 const Header = (): JSX.Element => {
   const matches = useMediaQuery("(min-width:680px)");
   const router = useRouter();

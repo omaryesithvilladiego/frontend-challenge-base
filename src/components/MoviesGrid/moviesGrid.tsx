@@ -81,11 +81,7 @@ export default function GridMoviesComponent({
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 width={200}
                 height={300}
-                onClick={() =>
-                  router.push(
-                    `/${popularityMax}/${JSON.stringify(movie.title)}`,
-                  )
-                }
+                onClick={() => router.push(`/${JSON.stringify(movie.title)}`)}
                 style={{
                   borderRadius: "8px 8px 0 0",
                   cursor: "pointer",
@@ -132,11 +128,7 @@ export default function GridMoviesComponent({
                     alignItems={"center"}
                   >
                     <p style={{ fontSize: ".8rem" }}>Rating</p>
-                    <ProgressMovie
-                      popularityMax={popularityMax}
-                      size={45}
-                      popularity={movie.popularity}
-                    />
+                    <ProgressMovie size={45} popularity={movie.popularity} />
                   </Stack>
                   <Stack
                     width={"4rem"}

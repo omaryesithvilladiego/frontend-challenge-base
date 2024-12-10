@@ -78,11 +78,7 @@ export default function Hero(): JSX.Element {
                     alignItems={"center"}
                     gap={"49px"}
                   >
-                    <ProgressMovie
-                      popularityMax={popularityMax}
-                      size={150}
-                      popularity={movie.popularity}
-                    />
+                    <ProgressMovie size={150} popularity={movie.popularity} />
 
                     <Image
                       style={{ cursor: "pointer" }}

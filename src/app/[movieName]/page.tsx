@@ -13,7 +13,8 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 const MovieDetail = () => {
-  const { getMovieByName, movies, getMovies } = useContext(UserContext);
+  const { getMovieByName, movies, upcoming, getMovies, getUpcoming } =
+    useContext(UserContext);
   const [movie, setMovie] = useState<IMovie>();
   const matches = useMediaQuery("(min-width:800px)"); // Adjusted the media query format
   const [genresMovie, setGenresMovie] = useState<any>([]);
@@ -30,7 +31,7 @@ const MovieDetail = () => {
     }
   };
 
-  const { movieName, popularity } = useParams();
+  const { movieName } = useParams();
   const router = useRouter();
 
   useEffect(() => {
@@ -38,16 +39,9 @@ const MovieDetail = () => {
   }, []);
 
   useEffect(() => {
-    const popularity = movies.map((movie) => movie.popularity);
-    const maxPopularity = Math.max(...popularity);
-    const maxPopularityPopular = Math.max(...popularity);
-    setPopularityMax(maxPopularity);
-  }, [movies]);
-
-  useEffect(() => {
     const getMovieByNameFetch = async () => {
       const response = await getMovieByName(movieName as string);
-      await getMovies({ page: 300 });
+      await getUpcoming({});
       setMovie(response.results[0]);
     };
     getMovieByNameFetch();
@@ -59,7 +53,7 @@ const MovieDetail = () => {
         .flat();
       setGenresMovie(generos);
     }
-  }, [movie]);
+  }, [movie, upcoming]);
 
   return (
     <>
@@ -159,7 +153,6 @@ const MovieDetail = () => {
             >
               <ProgressMovie
                 popularity={movie?.popularity as number}
-                popularityMax={Number(popularity)}
                 size={matches ? 150 : 120}
               />
               <Image
@@ -209,7 +202,7 @@ const MovieDetail = () => {
         </Stack>
       )}
 
-      <GridMoviesComponent movies={movies} tittle="Recommendations" />
+      <GridMoviesComponent movies={upcoming} tittle="Recommendations" />
     </>
   );
 };
