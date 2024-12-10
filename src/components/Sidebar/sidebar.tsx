@@ -15,7 +15,7 @@ export default function Sidebar({}: Props) {
       style={{
         width: "100%",
         backgroundColor: "#262626",
-        height: matches ? "2000vh" : "20vh",
+        height: matches ? "2000vh" : "30vh",
         overflow: "hidden",
         display: !matches ? "flex" : "block",
       }}

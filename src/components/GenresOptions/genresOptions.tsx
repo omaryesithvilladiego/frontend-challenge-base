@@ -66,7 +66,7 @@ const GenresOptions = (props: Props) => {
       <ul
         className="contenedor"
         style={{
-          height: matches ? "365px" : "50px",
+          height: matches ? "365px" : "120px",
           width: "75%",
           margin: "0 auto",
           overflowY: "scroll",
