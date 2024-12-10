@@ -28,7 +28,7 @@ export default function ProgressMovie({ size, popularity }: Props) {
           stroke=" #4da14f"
           strokeWidth="10"
           strokeDasharray="600"
-          strokeDashoffset={popularity}
+          strokeDashoffset={600 - (popularity * 600) / 100}
           transform="rotate(-90, 125, 125)"
         ></circle>
         <text
